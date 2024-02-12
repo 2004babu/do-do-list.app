@@ -1,0 +1,175 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+body{
+    height: 100vh;
+    width: 100vw;
+    background-color: rgb(163, 154, 154);
+}
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    height: 40px;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+header :first-child{
+    flex:1;
+}
+header .searchdiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+flex: 2;
+height: 30px;
+box-shadow: 1px 2px 3px black;
+margin-right: 4px;
+
+}
+header .searchdiv input{
+outline: none;
+border: none;
+flex: 5;
+padding: 4px;
+}
+header .searchdiv i{
+flex: 1;
+}
+.container{
+    height: 735px;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top:50px ;
+    padding: 10px;
+overflow: scroll;
+}
+.container .note{
+    height: 200px;
+    width: 350px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    position: relative;
+    padding: 20px;
+}
+.container .note :first-child{
+    margin-top: 4px;
+
+}
+.container .note :first-child input{
+    outline: none;
+    border: none;
+    padding: 5px;
+    border-bottom: 2px solid black;
+    width: 98%;
+
+}
+.container .note :nth-child(2)i{
+    margin-top: 10px;
+    font-size: 900;
+}
+/* 
+.container .note :first-child h5::before{
+content: "";
+height: 20px;
+width: 1px;
+background-color: black;
+    position: absolute;
+display: inline-block;
+top: 90px;
+left: 10px;
+animation: infinite 1s blink ease-in-out;
+}
+
+@keyframes blink{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+} */
+/* //////////fullpage-note */
+.fullpage{
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* z-index: 100; */
+    /* background-color: red; */
+    height: 100%;
+    width: 100%;
+    backdrop-filter: blur(20px);
+    z-index: 20;
+
+}
+.fullpage .first {
+    display: flex;
+    justify-content: space-between;
+    align-items: last baseline;
+    padding: 20px;
+    border-bottom: 1px solid black ;
+    background-color: rgba(32, 246, 253, 0.881);
+}
+.fullpage .first .note
+{
+flex: 4;
+}
+.fullpage .first .close
+{display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+flex: 1;
+margin-left: 20px;
+
+}
+.fullpage .first .close i{
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+    font-weight: 700;
+    padding: 3px;
+    width: 40px;
+margin-top: 20px;
+}
+
+.fullpage .first :first-child h5 {
+padding: 10px;
+}
+.fullpage .first :first-child input {
+padding: 10px;
+outline: none;
+border: none;
+width: 100%;
+border-radius: 4px;
+}
+.fullpage textarea{
+    width: 100%;
+    height: 100%;
+    /* min-height: 600px; */
+    padding: 10px;
+    font-size: large;
+    border: 3px solid black;
+    /* position: relative; */
+}
+
+.container .note .logotext{
+    padding: 10px;
+    font: 200;
+    font-size: 10px;
+    overflow: scroll;
+
+}

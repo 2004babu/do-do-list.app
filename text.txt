@@ -1,0 +1,231 @@
+<div class="note">
+            <div><h5>Note</h5>
+            <input type="text" id="untitle" placeholder="untitle-1"></div>
+            <div class="logotext">
+            </div>
+        </div>
+
+
+
+        if(fullpageuntitle.value===""){
+        untitle++
+        console.log("untitlte");
+        fullpageuntitle.value=`Untitle-${untitle}`
+        console.dir(fullpageuntitle);
+    }else{
+
+    }
+
+
+    [
+        {
+            "id":1,
+            "Title":"babu text1",
+            "Data":"notes1"
+        },
+        {
+            "id":2,
+            "Title":"babu text2",
+            "Data":"notes2"
+        }
+    ]
+
+
+
+
+
+
+
+
+    const container = document.querySelector('.container');
+const fullpage = document.querySelector('.fullpage');
+const fullpagenote = document.querySelector('#fullpage-note');
+
+let untitle = 0;
+let noteindex = 0;
+let untitledata = "";
+let notedata = "";
+
+document.addEventListener('DOMContentLoaded', () => {
+    resetupuntitle();
+    cheakemptynote();
+    click();
+});
+
+// Local storage setup
+const notesArray = createlocalstorage('notes');
+function createlocalstorage(storagename) {
+    return JSON.parse(localStorage.getItem(storagename) || '[]');
+}
+
+fullpage.addEventListener('click', (e) => {
+    if (e.target.id === 'closebtn') {
+        fullpage.style.display = 'none';
+    } else if (e.target.id === 'delete') {
+        handleDeleteNote();
+    } else if (e.target.id === 'savebtn') {
+        handleSaveNote();
+    }
+    click();
+});
+
+function handleDeleteNote() {
+    const untitledata1 = e.target.parentNode.offsetParent.children[0].children[0].children[1].value;
+    const notedata1 = e.target.parentNode.offsetParent.children[1].value;
+    const data = notesArray.filter((item, index) => {
+        return item.Title !== untitledata1 && item.Data !== notedata1;
+    });
+
+    if (!!untitledata === "Untitle" && notedata === "Enter your text") {
+        fullpage.style.display = 'none';
+    } else {
+        confirm('delete this """');
+        if (confirm) {
+            addstroge(data, 'notes');
+            resetupuntitle();
+            cheakemptynote();
+            fullpage.style.display = 'none';
+        } else {
+            e.stopImmediatePropagation();
+        }
+    }
+}
+
+function handleSaveNote() {
+    const untitledata1 = e.target.parentNode.offsetParent.children[0].children[0].children[1].value;
+    const notedata1 = e.target.parentNode.offsetParent.children[1].value;
+    const filterdata = createlocalstorage('notes').filter((value) => {
+        return value.Title === untitledata1;
+    });
+
+    if (untitledata1 === untitledata && notedata1 === notedata) {
+        fullpage.style.display = 'none';
+    } else if (!filterdata.length) {
+        confirm('save changes !!');
+        if (confirm) {
+            const olddata = notesArray.filter((item) => {
+                return item.Title !== untitledata1;
+            });
+            const newdata = jsonparmatdata(Math.floor(Math.random() * 50000), untitledata1, notedata1);
+            const pushdata = olddata.concat(newdata);
+            addstroge(pushdata, 'notes');
+            fullpage.style.display = 'none';
+            resetupuntitle();
+            cheakemptynote();
+        }
+    } else {
+        alert('Change Title Name!!!');
+    }
+    click();
+}
+
+function createfullpage(textarea, title, time) {
+    const fullpagehtml = `<div class="first">
+        <div class="note">
+            <h5>Note Title <span id="Date">${time}</span></h5>
+            <input type="text" id="fullpage-untitle" placeholder="untitle-1" value="${title}">
+        </div>
+        <div class="close">
+            <i class="fa-solid fa-upload "  id="savebtn"></i>
+            <i class="fa-regular fa-circle-xmark" id="closebtn"></i>
+            <i class="fa-solid fa-trash" id="delete"></i>
+        </div>
+    </div>
+    <textarea name="fullpage-note" id="fullpage-note" class="fullpage-note" cols="10" rows="10">${textarea}</textarea>`;
+
+    fullpage.innerHTML = fullpagehtml;
+}
+
+function newuntitlecreate(title, data) {
+    container.innerHTML += `<div class="note">
+        <div><h5>Note</h5>
+        <input type="text" id="untitle" placeholder="untitle-1" value='${title ? title : 'Untitle'}'></div>
+        <div class="logotext">
+        ${data ? data : 'Enter your text'}
+        </div>
+    </div>`;
+
+    click();
+}
+
+function jsonparmatdata(id, title, notes, time) {
+    return {
+        "id": id,
+        "Title": title,
+        "Data": notes,
+        "time": new Date().toLocaleTimeString([], { hour12: true })
+    };
+}
+
+function addstroge(data, storagename) {
+    localStorage.removeItem(storagename);
+    localStorage.setItem(storagename, JSON.stringify(data));
+}
+
+function cheakemptynote() {
+    const notes = document.querySelectorAll('.container .note');
+    const notedata = notes[notes.length - 1].children[1].textContent;
+    const title = notes[notes.length - 1].children[0].children[1].value;
+    if (notedata === "" && title === "") {
+        return;
+    } else {
+        newuntitlecreate();
+    }
+}
+
+function click() {
+    const notediv = document.querySelectorAll('.container .note');
+    notediv.forEach((item, index) => {
+        item.addEventListener('click', (e) => {
+            createfullpage(item.children[1].innerText, item.children[0].lastChild.value);
+            fullpage.style.display = "block";
+            noteindex = index;
+            const fullpageuntitle = document.querySelector('#fullpage-untitle');
+            if (fullpageuntitle.value === "") {
+                fullpageuntitle.value = `Untitle-${untitle <= 0 ? 1 : untitle}`;
+            }
+            const textsreadata = document.getElementById('fullpage-note');
+            untitledata = fullpageuntitle.value;
+            notedata = textsreadata.value;
+        });
+    });
+}
+
+function resetupuntitle() {
+    container.innerHTML = "";
+    const notesArray = JSON.parse(localStorage.getItem('notes') || '[]');
+    notesArray.forEach((item, index) => {
+        newuntitlecreate(item.Title, item.Data);
+    });
+    click();
+}
+
+// Search box event listener
+const Elementsearchbox = document.getElementById("searchbox");
+Elementsearchbox.addEventListener('input', searchbox);
+
+function searchbox(event) {
+    const svalue = event.target.value;
+    if (!svalue) {
+        localStorage.removeItem("searchData");
+        resetupuntitle();
+    } else {
+        const filterdata = notesArray.filter((value) => {
+            return value.Data.includes(svalue) || value.Title.includes(svalue);
+        });
+        if (filterdata.length) {
+            container.innerHTML = "";
+            addstroge(filterdata, 'searchData');
+            const Storage = createlocalstorage('searchData');
+            Storage.forEach((value) => {
+                newuntitlecreate(value.Title, value.Data);
+            });
+        } else {
+            resetupuntitle();
+        }
+    }
+    cheakemptynote();
+    click();
+}
+
+localStorage.removeItem("searchData");
